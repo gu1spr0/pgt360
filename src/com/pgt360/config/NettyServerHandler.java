@@ -32,6 +32,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         for(Channel channel : channels){
             System.out.print("ID: "+channel.id()+"\n");
         }
+        ctx.write("06");
+        ctx.flush();
     }
     
     @Override
