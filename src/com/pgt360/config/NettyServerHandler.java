@@ -69,6 +69,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         channels.add(ctx.channel()); // (7)
         if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
+            System.out.println("Enviando mensajes");
             ctx.writeAndFlush("06");
         }else{
             System.out.println("No se puedo enviar mensaje");
