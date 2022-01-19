@@ -9,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import static java.lang.System.in;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -16,16 +17,15 @@ import java.util.List;
  * @author Home
  */
 public class NettyDecoder extends ByteToMessageDecoder{
-
+    private final Charset charset = Charset.forName("UTF-8");
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf bb, List<Object> list) throws Exception {
-        System.out.println("DATA:"+bb.toString());
-        if(bb.readableBytes()<4){
+        if(bb.readableBytes()<1){
             return;
         }
-        
-        int length = in.read();
-        System.out.println("length:" + length);
+        int length = bb.readInt();
+        System.out.println("Tamaño del dato: "+length);
+        list.add(bb.readInt());
     }
     
 }
