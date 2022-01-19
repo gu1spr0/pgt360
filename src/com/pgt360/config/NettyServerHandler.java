@@ -30,30 +30,27 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         channels.add(incoming);
-        System.out.print("[SERVER]-"+incoming.remoteAddress()+" SE CONECTÓ!\n");
-        for(Channel channel : channels){
-            System.out.print("ID: "+channel.id()+"\n");
-        }
-        ctx.write("06");
-        ctx.flush();
+        System.out.print("[SERVER]-"+incoming.remoteAddress()+" SE CONECTÓ! ID:"+incoming.id()+"\n");
     }
     
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         channels.remove(incoming);
-        System.out.print("[SERVER] - "+incoming.remoteAddress() + " SE DESCONECTÓ\n");
+        System.out.print("[SERVER] - "+incoming.remoteAddress() + " SE DESCONECTÓ ID:"+incoming.id()+"\n");
     }
     
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
-        /*Channel incoming = ctx.channel();
-        for(Channel channel : channels){
+        Channel incoming = ctx.channel();
+        System.out.println("MESSAGE["+incoming.id()+"]" +(String)msg);
+        ctx.write(msg);
+        /*for(Channel channel : channels){
             if(channel != incoming){
                 channel.write("["+incoming.remoteAddress()+"]"+msg+"\n");
             }
         }*/
-        System.out.println("Llegando datos...");
+        /*System.out.println("Llegando datos...");
         ByteBuf buf =(ByteBuf)msg;
         String text = buf.toString(Charset.defaultCharset()); // (3)
         System.out.print(text);
@@ -64,7 +61,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
                 channel.writeAndFlush(bufToSend);
             }
         };
-        buf.release(); // (6)
+        buf.release(); // (6)*/
     }
     
     @Override
