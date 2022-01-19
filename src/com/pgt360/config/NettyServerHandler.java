@@ -7,12 +7,14 @@ package com.pgt360.config;
 
 import com.pgt360.exception.ExceptionPayment;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import java.nio.charset.Charset;
 
@@ -68,6 +70,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         channels.add(ctx.channel()); // (7)
+        if(ctx.channel().isWritable()){
+            ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
+        }else{
+            System.out.println("No se puedo enviar mensaje");
+        }
     }
 
     @Override
