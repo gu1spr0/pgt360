@@ -25,7 +25,6 @@ public class NettyDecoder extends ByteToMessageDecoder{
         }
         int length = bb.readInt();
         System.out.println("Tamaño del dato: "+length);
-        list.add(bb.readInt());
     }
     
 }
