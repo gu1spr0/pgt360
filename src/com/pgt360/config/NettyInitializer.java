@@ -5,13 +5,10 @@
  */
 package com.pgt360.config;
 
+import com.pgt360.decoder.NettyDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 /**
  *
@@ -21,10 +18,11 @@ public class NettyInitializer extends ChannelInitializer<SocketChannel>{
     @Override
     protected void initChannel(SocketChannel c) throws Exception {
         ChannelPipeline pipeline = c.pipeline();
-        pipeline.addLast(new DelimiterBasedFrameDecoder(1024*1024, Delimiters.lineDelimiter()));
+        //pipeline.addLast(new DelimiterBasedFrameDecoder(1024*1024, Delimiters.lineDelimiter()));
         /*pipeline.addLast(new StringDecoder());
         pipeline.addLast(new StringEncoder());
         pipeline.addLast(nettyServerHandler);*/
+        pipeline.addLast(new NettyDecoder());
         pipeline.addLast(new NettyServerHandler());
     }
     
