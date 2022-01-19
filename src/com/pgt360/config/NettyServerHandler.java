@@ -44,7 +44,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         System.out.println("MESSAGE["+incoming.id()+"]" +(String)msg);
-        ctx.write(msg);
+        incoming.write(msg);
         /*for(Channel channel : channels){
             if(channel != incoming){
                 channel.write("["+incoming.remoteAddress()+"]"+msg+"\n");
@@ -70,7 +70,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
             System.out.println("Enviando mensajes");
-            ctx.writeAndFlush("06");
+            ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
+            System.out.println("Mensaje enviado");
         }else{
             System.out.println("No se puedo enviar mensaje");
         }
