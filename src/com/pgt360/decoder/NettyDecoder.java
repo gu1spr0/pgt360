@@ -20,11 +20,12 @@ public class NettyDecoder extends ByteToMessageDecoder{
     private final Charset charset = Charset.forName("UTF-8");
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf bb, List<Object> list) throws Exception {
+        System.out.println("Decodificando mensaje");
         if(bb.readableBytes()<1){
             return;
         }
         int length = bb.readInt();
-        System.out.println("Tamaño del dato: "+length);
+        System.out.println("Mensaje decodificado: "+bb.readCharSequence(length, charset).toString());
     }
     
 }
