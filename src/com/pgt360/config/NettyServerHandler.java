@@ -103,21 +103,24 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             //ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
             
             /*StringBuffer sb = new StringBuffer();
-            char ch[] = "02001736303030303030303030313030323030300321".toCharArray();
+            char ch[] = "02001736303030303030303030313030303030300323".toCharArray();
             for(int i=0;i<ch.length;i++){
                 String hexString = Integer.toHexString(ch[i]);
                 sb.append(hexString);
             }
             String result = sb.toString();*/
-            while(true){
-                Scanner sc = new Scanner(System.in);
-                String entrada = sc.next();
-                System.out.println("Enviando mensajes");
-                ctx.writeAndFlush(Unpooled.copiedBuffer(entrada.getBytes()));
-                System.out.println("Mensaje enviado");
-                if(entrada.equals("S"))
-                    break;
+            String    HEXES    = "0123456789ABCDEF";
+            byte[] data = "02001736303030303030303030313030303030300323".getBytes();
+            StringBuilder hex = new StringBuilder(2 * data.length);
+            for (final byte b : data) {
+                hex.append(HEXES.charAt((b & 0xF0) >> 4)).append(HEXES.charAt((b & 0x0F)));
             }
+            /*Scanner sc = new Scanner(System.in);
+            String entrada = sc.next();*/
+            System.out.println("Enviando mensajes");
+            System.out.println("Resultado:"+hex);
+            ctx.writeAndFlush(Unpooled.copiedBuffer(data));
+            System.out.println("Mensaje enviado");
             
             //ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
             
