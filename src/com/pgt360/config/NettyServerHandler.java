@@ -44,7 +44,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
         Channel incoming = ctx.channel();
-        System.out.println("Lectura...");
+        System.out.println("Lectura..."+msg);
         ByteBuf buf = (ByteBuf)msg;
         String text = buf.toString(Charset.defaultCharset());
         System.out.println("MESSAGE["+incoming.id()+"]"+text);
@@ -98,7 +98,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
             
             StringBuffer sb = new StringBuffer();
-            char ch[] = "02001736303030303030303030313030363030300325".toCharArray();
+            char ch[] = "02001736303030303030303030313030323030300321".toCharArray();
             for(int i=0;i<ch.length;i++){
                 String hexString = Integer.toHexString(ch[i]);
                 sb.append(hexString);
