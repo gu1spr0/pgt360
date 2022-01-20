@@ -24,8 +24,7 @@ public class NettyDecoder extends ByteToMessageDecoder{
         if(bb.readableBytes()<1){
             return;
         }
-        int length = bb.readInt();
-        System.out.println("Mensaje decodificado: "+bb.readCharSequence(length, charset).toString());
+        //int length = bb.readInt();
     }
     
 }
