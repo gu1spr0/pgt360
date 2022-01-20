@@ -115,6 +115,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
                 System.out.println("Enviando mensajes");
                 ctx.writeAndFlush(Unpooled.copiedBuffer(entrada.getBytes()));
                 System.out.println("Mensaje enviado");
+                if(entrada.equals("S"))
+                    break;
             }
             
             //ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
