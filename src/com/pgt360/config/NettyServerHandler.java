@@ -47,7 +47,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         System.out.println("Lectura...");
         /*ByteBuf buf = (ByteBuf)msg;
         String text = buf.toString(Charset.defaultCharset());*/
-        System.out.println("MESSAGE["+incoming.id()+"]" +msg);
+        System.out.println("MESSAGE["+incoming.id()+"]"+msg.toString());
+        ctx.write(msg);
+        
         ByteBuf buf = (ByteBuf)msg;
         //String s = buf.readCharSequence(buf., Charset.forName("utf-8")).toString();
         // actual length of received packet
@@ -58,7 +60,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         /*byte[] bytes = new byte[buf.readableBytes()];
         buf.readBytes(bytes);
         System.out.println("EXITO:"+new String(bytes));*/
-        String s = "";
+        /*String s = "";
         if(!buf.hasArray()){
             int length = buf.readableBytes();
             byte[] array = new byte[length];
@@ -66,7 +68,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             s = new String(array, StandardCharsets.UTF_8);
             System.out.println("Resultado: "+s);
         }
-        incoming.write(s);
+        incoming.write(s);*/
         
         /*String s = buf.readCharSequence(buf.readInt(), Charset.forName("utf-8")).toString();
         System.out.println(s);*/
@@ -115,5 +117,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         channels.remove(ctx.channel()); // (8)
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
     }
 }
