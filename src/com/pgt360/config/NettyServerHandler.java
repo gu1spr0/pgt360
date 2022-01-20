@@ -48,12 +48,19 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         String text = buf.toString(Charset.defaultCharset());*/
         System.out.println("MESSAGE["+incoming.id()+"]" +msg);
         ByteBuf buf = (ByteBuf)msg;
-        for (int i = 0; i < buf.capacity(); i++) {
+        //String s = buf.readCharSequence(buf., Charset.forName("utf-8")).toString();
+        // actual length of received packet
+        /*for (int i = 0; i < buf.capacity(); i++) {
             byte b = buf.getByte(i);
-            System.out.print((char) b);
-        }
-        
+            System.out.print("-->"+(char)b);
+        }*/
+        byte[] bytes = new byte[buf.readableBytes()];
+        buf.readBytes(bytes);
+        System.out.println("EXITO:"+new String(bytes));
         incoming.write(msg);
+        
+        /*String s = buf.readCharSequence(buf.readInt(), Charset.forName("utf-8")).toString();
+        System.out.println(s);*/
         /*for(Channel channel : channels){
             if(channel != incoming){
                 channel.write("["+incoming.remoteAddress()+"]"+msg+"\n");
