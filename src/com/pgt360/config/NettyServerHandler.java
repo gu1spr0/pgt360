@@ -44,10 +44,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         System.out.println("Lectura...");
-        ByteBuf buf = (ByteBuf)msg;
-        String text = buf.toString(Charset.defaultCharset());
-        System.out.println("MESSAGE["+incoming.id()+"]" +text);
-        incoming.write(text);
+        /*ByteBuf buf = (ByteBuf)msg;
+        String text = buf.toString(Charset.defaultCharset());*/
+        System.out.println("MESSAGE["+incoming.id()+"]" +msg);
+        incoming.write(msg);
         /*for(Channel channel : channels){
             if(channel != incoming){
                 channel.write("["+incoming.remoteAddress()+"]"+msg+"\n");
