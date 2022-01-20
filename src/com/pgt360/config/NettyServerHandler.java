@@ -45,12 +45,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         System.out.println("Lectura...");
-        /*ByteBuf buf = (ByteBuf)msg;
-        String text = buf.toString(Charset.defaultCharset());*/
-        System.out.println("MESSAGE["+incoming.id()+"]"+msg.toString());
-        ctx.write(msg);
-        
         ByteBuf buf = (ByteBuf)msg;
+        String text = buf.toString(Charset.defaultCharset());
+        System.out.println("MESSAGE["+incoming.id()+"]"+text);
+        ctx.write(msg);
         //String s = buf.readCharSequence(buf., Charset.forName("utf-8")).toString();
         // actual length of received packet
         /*for (int i = 0; i < buf.capacity(); i++) {
@@ -107,7 +105,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             }
             String result = sb.toString();
             
-            ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
+            //ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
+            ctx.writeAndFlush(Unpooled.copiedBuffer(result.getBytes()));
             System.out.println("Mensaje enviado");
         }else{
             System.out.println("No se puedo enviar mensaje");
