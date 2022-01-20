@@ -18,6 +18,7 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 /**
  *
@@ -98,20 +99,27 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         channels.add(ctx.channel()); // (7)
         if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
-            System.out.println("Enviando mensajes");
-            ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
             
-            StringBuffer sb = new StringBuffer();
+            //ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
+            
+            /*StringBuffer sb = new StringBuffer();
             char ch[] = "02001736303030303030303030313030323030300321".toCharArray();
             for(int i=0;i<ch.length;i++){
                 String hexString = Integer.toHexString(ch[i]);
                 sb.append(hexString);
             }
-            String result = sb.toString();
+            String result = sb.toString();*/
+            while(true){
+                Scanner sc = new Scanner(System.in);
+                String entrada = sc.next();
+                System.out.println("Enviando mensajes");
+                ctx.writeAndFlush(Unpooled.copiedBuffer(entrada.getBytes()));
+                System.out.println("Mensaje enviado");
+            }
             
             //ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
-            ctx.writeAndFlush(Unpooled.copiedBuffer(result.getBytes()));
-            System.out.println("Mensaje enviado");
+            
+            
         }else{
             System.out.println("No se puedo enviar mensaje");
         }
