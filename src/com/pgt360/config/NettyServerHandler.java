@@ -17,6 +17,7 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -54,10 +55,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             byte b = buf.getByte(i);
             System.out.print("-->"+(char)b);
         }*/
-        byte[] bytes = new byte[buf.readableBytes()];
+        /*byte[] bytes = new byte[buf.readableBytes()];
         buf.readBytes(bytes);
-        System.out.println("EXITO:"+new String(bytes));
-        incoming.write(msg);
+        System.out.println("EXITO:"+new String(bytes));*/
+        String s = "";
+        if(!buf.hasArray()){
+            int length = buf.readableBytes();
+            byte[] array = new byte[length];
+            buf.getBytes(buf.readerIndex(), array);
+            s = new String(array, StandardCharsets.UTF_8);
+            System.out.println("Resultado: "+s);
+        }
+        incoming.write(s);
         
         /*String s = buf.readCharSequence(buf.readInt(), Charset.forName("utf-8")).toString();
         System.out.println(s);*/
@@ -87,7 +96,16 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
             System.out.println("Enviando mensajes");
             ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
-            ctx.writeAndFlush(Unpooled.copiedBuffer("02001736303030303030303030313030363030300325", CharsetUtil.UTF_8));
+            
+            StringBuffer sb = new StringBuffer();
+            char ch[] = "02001736303030303030303030313030363030300325".toCharArray();
+            for(int i=0;i<ch.length;i++){
+                String hexString = Integer.toHexString(ch[i]);
+                sb.append(hexString);
+            }
+            String result = sb.toString();
+            
+            ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
             System.out.println("Mensaje enviado");
         }else{
             System.out.println("No se puedo enviar mensaje");
