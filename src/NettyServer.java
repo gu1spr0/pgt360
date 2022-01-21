@@ -51,7 +51,7 @@ public class NettyServer {
             //serverBootstrap.handler(new LoggingHandler(LogLevel.INFO));
             bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
             bootstrap.option(ChannelOption.TCP_NODELAY, true);
-            bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+            bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
             bootstrap.childHandler(new NettyInitializer()); 
             ChannelFuture future = bootstrap.bind(this.port).sync();
             if(future.isSuccess()){
