@@ -27,18 +27,22 @@ import java.util.Scanner;
 @ChannelHandler.Sharable
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private ChannelHandlerContext ctx;
     
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         channels.add(incoming);
+        this.ctx = ctx;
         System.out.print("[SERVER]-"+incoming.remoteAddress()+" SE CONECTÓ! ID:"+incoming.id()+"\n");
+        
     }
     
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
         channels.remove(incoming);
+        this.ctx = null;
         System.out.print("[SERVER] - "+incoming.remoteAddress() + " SE DESCONECTÓ ID:"+incoming.id()+"\n");
     }
     
@@ -110,17 +114,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
                 sb.append(hexString);
             }
             String result = sb.toString();*/
-            String    HEXES    = "0123456789ABCDEF";
+            /*String    HEXES    = "0123456789ABCDEF";
             byte[] data = "02001736303030303030303030313030303030300323".getBytes();
             StringBuilder hex = new StringBuilder(2 * data.length);
             for (final byte b : data) {
                 hex.append(HEXES.charAt((b & 0xF0) >> 4)).append(HEXES.charAt((b & 0x0F)));
-            }
+            }*/
             /*Scanner sc = new Scanner(System.in);
             String entrada = sc.next();*/
             System.out.println("Enviando mensajes");
-            System.out.println("Resultado:"+hex);
-            ctx.writeAndFlush(Unpooled.copiedBuffer(data));
+            //System.out.println("Resultado:"+hex);
+            //ctx.writeAndFlush(Unpooled.copiedBuffer(data));
+            sendMessage("02001736303030303030303030313030303030300323");
             System.out.println("Mensaje enviado");
             
             //ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
@@ -140,5 +145,21 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+    
+    public void sendMessage(String msg){  // (4)
+        if (this.ctx == null)
+            return;
+        /*StringBuffer sb = new StringBuffer();
+        char ch[] = msg.toCharArray();
+        for(int i=0;i<ch.length;i++){
+            String hexString = Integer.toHexString(ch[i]);
+            sb.append(hexString);
+        }*/
+        //String result = sb.toString();
+        ByteBuf buf = this.ctx.alloc().buffer();  // (5)
+        buf.writeCharSequence(msg,Charset.defaultCharset());
+        ctx.write(buf);
+        ctx.flush();
     }
 }
