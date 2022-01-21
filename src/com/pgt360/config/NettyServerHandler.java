@@ -59,6 +59,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             result = result + c;
         }
         System.out.println("Data:"+result);
+        this.sendMessage(result);
         //System.out.println("Data:"+msg);
         //ctx.write(msg);
         //String s = buf.readCharSequence(buf., Charset.forName("utf-8")).toString();
