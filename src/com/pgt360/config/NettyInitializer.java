@@ -22,7 +22,7 @@ public class NettyInitializer extends ChannelInitializer<SocketChannel>{
         /*pipeline.addLast(new StringDecoder());
         pipeline.addLast(new StringEncoder());
         pipeline.addLast(nettyServerHandler);*/
-        //pipeline.addLast(new NettyDecoder());
+        pipeline.addLast(new NettyDecoder());
         pipeline.addLast(new NettyServerHandler());
     }
     
