@@ -48,6 +48,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
+        String result = "";
         Channel incoming = ctx.channel();
         ByteBuf buf = (ByteBuf)msg;
         String text = buf.toString(Charset.defaultCharset());
@@ -55,8 +56,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         for(int i = 0; i < buf.readableBytes();i++){
             byte b = buf.getByte(i);
             char c = (char)(b);
-            System.out.println("Data:"+c);
+            result = result + c;
         }
+        System.out.println("Data:"+result);
         //System.out.println("Data:"+msg);
         //ctx.write(msg);
         //String s = buf.readCharSequence(buf., Charset.forName("utf-8")).toString();
