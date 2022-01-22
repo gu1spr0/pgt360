@@ -32,7 +32,7 @@ public class NettyDecoder extends ByteToMessageDecoder{
         /*int strLen = bb.readInt();
         String s = bb.readCharSequence(strLen, charset).toString();
         list.add(s);*/
-        String result = "";
+        /*String result = "";
         Channel incoming = chc.channel();
         ByteBuf buf = (ByteBuf)bb;
         String text = buf.toString(Charset.defaultCharset());
@@ -42,7 +42,7 @@ public class NettyDecoder extends ByteToMessageDecoder{
             char c = (char)(b);
             result = result + c;
         }
-        list.add(result);
+        list.add(result);*/
     }
     
 }
