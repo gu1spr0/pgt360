@@ -6,6 +6,7 @@
 package com.pgt360.decoder;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import static java.lang.System.in;
@@ -28,9 +29,20 @@ public class NettyDecoder extends ByteToMessageDecoder{
         }
         String s = bb.readCharSequence(bb.readableBytes(),Charset.forName("utf-8")).toString();
         list.add(s);*/
-        int strLen = bb.readInt();
+        /*int strLen = bb.readInt();
         String s = bb.readCharSequence(strLen, charset).toString();
-        list.add(s);
+        list.add(s);*/
+        String result = "";
+        Channel incoming = chc.channel();
+        ByteBuf buf = (ByteBuf)bb;
+        String text = buf.toString(Charset.defaultCharset());
+        System.out.println("MESSAGE["+incoming.id()+"]"+buf.readableBytes());
+        for(int i = 0; i < buf.readableBytes();i++){
+            byte b = buf.getByte(i);
+            char c = (char)(b);
+            result = result + c;
+        }
+        list.add(result);
     }
     
 }
