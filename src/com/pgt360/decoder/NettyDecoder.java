@@ -44,7 +44,6 @@ public class NettyDecoder extends ByteToMessageDecoder{
         String text = bb.toString(Charset.defaultCharset());   // (3)
         System.out.println("El mensaje decodificado es:"+text);
         list.add(Integer.parseInt(text));
-        bb.release(); // (4)
     }
     
 }
