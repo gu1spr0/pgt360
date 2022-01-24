@@ -6,12 +6,9 @@
 package com.pgt360.decoder;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import static java.lang.System.in;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -43,6 +40,11 @@ public class NettyDecoder extends ByteToMessageDecoder{
             result = result + c;
         }
         list.add(result);*/
+        //ByteBuf buf =(ByteBuf)msg;    // (2)
+        String text = bb.toString(Charset.defaultCharset());   // (3)
+        System.out.println("El mensaje decodificado es:"+text);
+        list.add(Integer.parseInt(text));
+        bb.release(); // (4)
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package com.pgt360.config;
 
+import com.pgt360.decoder.NettyDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -21,7 +22,7 @@ public class NettyInitializer extends ChannelInitializer<SocketChannel>{
         /*pipeline.addLast(new StringDecoder());
         pipeline.addLast(new StringEncoder());
         pipeline.addLast(nettyServerHandler);*/
-        //pipeline.addLast(new NettyDecoder());
+        pipeline.addLast(new NettyDecoder());
         pipeline.addLast(new NettyServerHandler());
     }
     

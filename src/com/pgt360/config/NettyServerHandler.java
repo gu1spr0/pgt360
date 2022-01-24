@@ -15,6 +15,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import java.nio.charset.Charset;
 
@@ -26,7 +27,7 @@ import java.nio.charset.Charset;
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     public static  ChannelHandlerContext ctx;
-    
+    final static AttributeKey<String> flujo = AttributeKey.valueOf("inicializar");
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
@@ -59,14 +60,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             
         }
         System.out.print(">>>>>>>"+result);*/
-        ByteBuf buf =(ByteBuf)msg;    // (2)
-        String text = buf.toString(Charset.defaultCharset());   // (3)
-        System.out.println("El mensaje recibido del servidor es:"+text);
-        buf.release(); // (4)
-        //if(Integer.parseInt(text) == 1){
+        //ByteBuf buf =(ByteBuf)msg;    // (2)
+        //String text = buf.toString(Charset.defaultCharset());   // (3)
+        System.out.println("El mensaje leido es:"+msg);
+        //buf.release(); // (4)
+        /*if((int)msg == 1){
         CommunicationPos communicationPos = new CommunicationPos();
         communicationPos.sendSolicitudInicializar();
-        //}
+        }*/
     }
     
     @Override
