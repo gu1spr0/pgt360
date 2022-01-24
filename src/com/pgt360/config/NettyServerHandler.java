@@ -34,13 +34,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
-        ChannelDto channelDto = new ChannelDto();
-        channelDto.setChannel(incoming);
-        channelDto.setIdChannel(incoming.id());
-        channelDto.setFlujo("inicializar");
-        channelDto.setNumericFlujo(1);
-        channelDto.setStep(1);
-        channelRepository.put(incoming.id(), channelDto);
         this.ctx = ctx;
         System.out.print("[SERVER]-"+incoming.remoteAddress()+" SE CONECTÓ! ID:"+incoming.id()+"\n");
         
@@ -85,6 +78,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        Channel incoming = ctx.channel();
+        ChannelDto channelDto = new ChannelDto();
+        channelDto.setChannel(incoming);
+        channelDto.setIdChannel(incoming.id());
+        channelDto.setFlujo("inicializar");
+        channelDto.setNumericFlujo(1);
+        channelDto.setStep(1);
+        channelRepository.put(incoming.id(), channelDto);
         //channels.add(ctx.channel()); // (7)
         //if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
