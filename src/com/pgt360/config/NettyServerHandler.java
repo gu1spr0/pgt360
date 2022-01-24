@@ -5,13 +5,16 @@
  */
 package com.pgt360.config;
 
+import com.pgt360.dto.ChannelDto;
 import com.pgt360.exception.ExceptionPayment;
+import com.pgt360.repository.ChannelRepository;
 import com.pgt360.utils.CommunicationPos;
 import com.pgt360.utils.FlowProcess;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -25,13 +28,19 @@ import java.nio.charset.Charset;
  */
 @ChannelHandler.Sharable
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
-    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    //private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    public static ChannelRepository channelRepository;
     public static  ChannelHandlerContext ctx;
-    final static AttributeKey<String> flujo = AttributeKey.valueOf("inicializar");
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
-        channels.add(incoming);
+        ChannelDto channelDto = new ChannelDto();
+        channelDto.setChannel(incoming);
+        channelDto.setIdChannel(incoming.id());
+        channelDto.setFlujo("inicializar");
+        channelDto.setNumericFlujo(1);
+        channelDto.setStep(1);
+        channelRepository.put(incoming.id(), channelDto);
         this.ctx = ctx;
         System.out.print("[SERVER]-"+incoming.remoteAddress()+" SE CONECTÓ! ID:"+incoming.id()+"\n");
         
@@ -40,7 +49,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
-        channels.remove(incoming);
+        channelRepository.remove(incoming.id());
         this.ctx = null;
         System.out.print("[SERVER] - "+incoming.remoteAddress() + " SE DESCONECTÓ ID:"+incoming.id()+"\n");
     }
@@ -64,10 +73,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         //String text = buf.toString(Charset.defaultCharset());   // (3)
         System.out.println("El mensaje leido es:"+msg);
         //buf.release(); // (4)
-        /*if((int)msg == 1){
-        CommunicationPos communicationPos = new CommunicationPos();
-        communicationPos.sendSolicitudInicializar();
-        }*/
+        int flujo = channelRepository.get(ctx.channel().id()).getNumericFlujo();
+        for(ChannelId channelId : channelRepository.getCurrentMap().keySet()){
+            System.out.println("ID:"+channelId);
+        }
+        if(channelRepository.get(ctx.channel().id()).getNumericFlujo() == 1){
+            CommunicationPos communicationPos = new CommunicationPos();
+            communicationPos.sendSolicitudInicializar(ctx.channel().id());
+        }
     }
     
     @Override
@@ -107,14 +120,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         //}
     }
 
-    @Override
+    /*@Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         channels.remove(ctx.channel()); // (8)
-    }
+    }*/
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
         ctx.close();
     }
     
