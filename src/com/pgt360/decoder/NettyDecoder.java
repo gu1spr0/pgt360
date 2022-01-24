@@ -16,7 +16,7 @@ import java.util.List;
  * @author Home
  */
 public class NettyDecoder extends ByteToMessageDecoder{
-    private final Charset charset = Charset.forName("UTF-8");
+    //private final Charset charset = Charset.forName("UTF-8");
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf bb, List<Object> list) throws Exception {
         /*String message = "";
