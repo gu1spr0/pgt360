@@ -5,7 +5,6 @@
  */
 package com.pgt360.config;
 
-import com.pgt360.decoder.NettyDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

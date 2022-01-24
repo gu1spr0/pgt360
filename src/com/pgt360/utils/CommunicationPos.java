@@ -55,6 +55,7 @@ public class CommunicationPos {
     }
     public String sendSolicitudInicializar(){
         String msg = "02001736303030303030303030313030323030300321";
+        System.out.println("Inicializando Pos: "+msg);
         SendMessageToPOS(msg);
         return msg;
     }  

@@ -6,19 +6,17 @@
 package com.pgt360.config;
 
 import com.pgt360.exception.ExceptionPayment;
+import com.pgt360.utils.CommunicationPos;
+import com.pgt360.utils.FlowProcess;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 /**
  *
@@ -48,65 +46,33 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
-        String result = "";
+        /*String result = "";
         Channel incoming = ctx.channel();
         ByteBuf buf = (ByteBuf)msg;
         String text = buf.toString(Charset.defaultCharset());
+        System.out.println(">>>>>>>"+text);
         System.out.println("MESSAGE["+incoming.id()+"]"+buf.readableBytes());
         for(int i = 0; i < buf.readableBytes();i++){
             byte b = buf.getByte(i);
             char c = (char)(b);
             result = result + c;
+            
         }
-        System.out.println("Data:"+result);
-        //this.sendMessage(result);
-        
-        //System.out.println("Data:"+msg);
-        //ctx.write(msg);
-        //String s = buf.readCharSequence(buf., Charset.forName("utf-8")).toString();
-        // actual length of received packet
-        /*for (int i = 0; i < buf.capacity(); i++) {
-            byte b = buf.getByte(i);
-            System.out.print("-->"+(char)b);
-        }*/
-        /*byte[] bytes = new byte[buf.readableBytes()];
-        buf.readBytes(bytes);
-        System.out.println("EXITO:"+new String(bytes));*/
-        /*String s = "";
-        if(!buf.hasArray()){
-            int length = buf.readableBytes();
-            byte[] array = new byte[length];
-            buf.getBytes(buf.readerIndex(), array);
-            s = new String(array, StandardCharsets.UTF_8);
-            System.out.println("Resultado: "+s);
+        System.out.print(">>>>>>>"+result);*/
+        ByteBuf buf =(ByteBuf)msg;    // (2)
+        String text = buf.toString(Charset.defaultCharset());   // (3)
+        System.out.println("El mensaje recibido del servidor es:"+text);
+        buf.release(); // (4)
+        if(Integer.parseInt(text) == 1){
+            CommunicationPos communicationPos = new CommunicationPos();
+            communicationPos.sendSolicitudInicializar();
         }
-        incoming.write(s);*/
-        
-        /*String s = buf.readCharSequence(buf.readInt(), Charset.forName("utf-8")).toString();
-        System.out.println(s);*/
-        /*for(Channel channel : channels){
-            if(channel != incoming){
-                channel.write("["+incoming.remoteAddress()+"]"+msg+"\n");
-            }
-        }*/
-        /*System.out.println("Llegando datos...");
-        ByteBuf buf =(ByteBuf)msg;
-        String text = buf.toString(Charset.defaultCharset()); // (3)
-        System.out.print(text);
-        for (Channel channel : channels){  // (4)
-            if (!ctx.channel().equals(channel)) {  // (5)
-                ByteBuf bufToSend = ctx.alloc().buffer();
-                bufToSend.writeCharSequence(text, Charset.defaultCharset());
-                channel.writeAndFlush(bufToSend);
-            }
-        };
-        buf.release(); // (6)*/
     }
     
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        channels.add(ctx.channel()); // (7)
-        if(ctx.channel().isWritable()){
+        //channels.add(ctx.channel()); // (7)
+        //if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
             
             //ctx.writeAndFlush(Unpooled.copiedBuffer("06", CharsetUtil.UTF_8));
@@ -126,18 +92,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             }*/
             /*Scanner sc = new Scanner(System.in);
             String entrada = sc.next();*/
-            System.out.println("Enviando mensajes");
+            //System.out.println("Enviando mensajes");
             //System.out.println("Resultado:"+hex);
             //ctx.writeAndFlush(Unpooled.copiedBuffer(data));
-            sendMessage("02001736303030303030303030313030303030300323");
-            System.out.println("Mensaje enviado");
+            //sendMessage("02001736303030303030303030313030303030300323");
+            //System.out.println("Mensaje enviado");
             
             //ctx.writeAndFlush(Unpooled.copiedBuffer(result, CharsetUtil.UTF_8));
             
             
-        }else{
-            System.out.println("No se puedo enviar mensaje");
-        }
+        //}else{
+        //    System.out.println("No se puedo enviar mensaje");
+        //}
     }
 
     @Override
