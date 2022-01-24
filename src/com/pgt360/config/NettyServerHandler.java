@@ -27,7 +27,7 @@ import java.util.Scanner;
 @ChannelHandler.Sharable
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    private ChannelHandlerContext ctx;
+    public static  ChannelHandlerContext ctx;
     
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
@@ -151,8 +151,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         ctx.close();
     }
     
-    public void sendMessage(String msg){  // (4)
-        if (this.ctx == null)
+    public static void sendMessage(String msg){  // (4)
+        if (ctx == null)
             return;
         /*StringBuffer sb = new StringBuffer();
         char ch[] = msg.toCharArray();
@@ -161,7 +161,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             sb.append(hexString);
         }*/
         //String result = sb.toString();
-        ByteBuf buf = this.ctx.alloc().buffer();  // (5)
+        ByteBuf buf = ctx.alloc().buffer();  // (5)
         buf.writeCharSequence(msg,Charset.defaultCharset());
         ctx.write(buf);
         ctx.flush();
