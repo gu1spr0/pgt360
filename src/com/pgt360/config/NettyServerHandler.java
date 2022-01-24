@@ -42,7 +42,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
-        channelRepository.remove(incoming.id());
         this.ctx = null;
         System.out.print("[SERVER] - "+incoming.remoteAddress() + " SE DESCONECTÓ ID:"+incoming.id()+"\n");
     }
@@ -121,10 +120,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         //}
     }
 
-    /*@Override
+    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        channels.remove(ctx.channel()); // (8)
-    }*/
+        Channel incoming = ctx.channel();
+        channelRepository.remove(incoming.id());
+    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
