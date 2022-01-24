@@ -120,11 +120,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         //}
     }
 
-    @Override
+    /*@Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         Channel incoming = ctx.channel();
         channelRepository.remove(incoming.id());
-    }
+    }*/
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
