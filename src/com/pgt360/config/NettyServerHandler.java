@@ -63,10 +63,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         String text = buf.toString(Charset.defaultCharset());   // (3)
         System.out.println("El mensaje recibido del servidor es:"+text);
         buf.release(); // (4)
-        if(Integer.parseInt(text) == 1){
-            CommunicationPos communicationPos = new CommunicationPos();
-            communicationPos.sendSolicitudInicializar();
-        }
+        //if(Integer.parseInt(text) == 1){
+        CommunicationPos communicationPos = new CommunicationPos();
+        communicationPos.sendSolicitudInicializar();
+        //}
     }
     
     @Override
