@@ -35,13 +35,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
-        ctx = null;
+        NettyServerHandler.ctx = null;
         System.out.print("[SERVER] - "+incoming.remoteAddress() + " SE DESCONECTÓ ID:"+incoming.id()+"\n");
     }
     
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws ExceptionPayment{
-        /*String result = "";
+        String result = "";
         Channel incoming = ctx.channel();
         ByteBuf buf = (ByteBuf)msg;
         String text = buf.toString(Charset.defaultCharset());
@@ -53,7 +53,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             result = result + c;
             
         }
-        System.out.print(">>>>>>>"+result);*/
+        System.out.print(">>>>>>>"+result);
         //ByteBuf buf =(ByteBuf)msg;    // (2)
         //String text = buf.toString(Charset.defaultCharset());   // (3)
         //System.out.println("El mensaje leido es:"+msg);
