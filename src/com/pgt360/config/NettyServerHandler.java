@@ -56,7 +56,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         System.out.print(">>>>>>>"+result);*/
         //ByteBuf buf =(ByteBuf)msg;    // (2)
         //String text = buf.toString(Charset.defaultCharset());   // (3)
-        System.out.println("El mensaje leido es:"+msg);
+        //System.out.println("El mensaje leido es:"+msg);
         //buf.release(); // (4)
         /*int flujo = channelRepository.get(ctx.channel().id()).getNumericFlujo();
         for(ChannelId channelId : channelRepository.getCurrentMap().keySet()){
