@@ -57,7 +57,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             result = result + c;
             
         }*/
-        //System.out.print(">>>>>>>"+msg);
+        System.out.print(">>>>>>>"+msg);
         ChannelDto channelDto;
         channelDto = channelRepository.get(ctx.channel().id());
         //if(channelDto.getFlujo().equals("inicializar")){
@@ -125,6 +125,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         channels.remove(ctx.channel()); // (8)
+        channelRepository.remove(ctx.channel().id());
     }
     
     public static void sendMessage(String msg){  // (4)
