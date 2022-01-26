@@ -5,7 +5,10 @@
  */
 package com.pgt360.config;
 
+import com.pgt360.dto.ChannelDto;
 import com.pgt360.exception.ExceptionPayment;
+import com.pgt360.repository.ChannelRepository;
+import com.pgt360.utils.CommunicationPos;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -24,6 +27,7 @@ import java.nio.charset.Charset;
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     public static  ChannelHandlerContext ctx;
+    public static ChannelRepository channelRepository;
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
@@ -54,6 +58,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             
         }*/
         System.out.print(">>>>>>>"+msg);
+        ChannelDto channelDto = channelRepository.get(ctx.channel().id());
+        if(channelDto.getFlujo().equals("inicializar")){
+            CommunicationPos communicationPos = new CommunicationPos();
+            communicationPos.sendSolicitudInicializar(ctx.channel().id());
+        }
+        
         //ByteBuf buf =(ByteBuf)msg;    // (2)
         //String text = buf.toString(Charset.defaultCharset());   // (3)
         //System.out.println("El mensaje leido es:"+msg);
@@ -71,6 +81,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         channels.add(ctx.channel()); // (7)
+        ChannelDto channelDto = new ChannelDto();
+        channelDto.setChannel(ctx.channel());
+        channelDto.setFlujo("inicializar");
+        channelDto.setIdChannel(ctx.channel().id());
+        channelDto.setNumericFlujo(0);
+        channelDto.setStep(1);
+        channelRepository.put(ctx.channel().id(), channelDto);
         //if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
             

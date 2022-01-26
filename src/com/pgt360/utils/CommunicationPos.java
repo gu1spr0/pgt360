@@ -6,6 +6,9 @@
 package com.pgt360.utils;
 
 import com.pgt360.config.NettyServerHandler;
+import com.pgt360.dto.ChannelDto;
+import com.pgt360.repository.ChannelRepository;
+import io.netty.channel.ChannelId;
 import java.nio.ByteBuffer;
 
 /**
@@ -13,6 +16,7 @@ import java.nio.ByteBuffer;
  * @author Home
  */
 public class CommunicationPos {
+    private static ChannelRepository channelRepository;
     public String sendAck(){
         String msg = "06";
         return msg;
@@ -52,10 +56,12 @@ public class CommunicationPos {
         SendMessageToPOS(msg);
         return msg;
     }
-    public String sendSolicitudInicializar(){
+    public String sendSolicitudInicializar(ChannelId channelId){
         String msg = "02001736303030303030303030313030323030300321";
         System.out.println("Inicializando Pos: "+msg);
         SendMessageToPOS(msg);
+        ChannelDto channelDto = channelRepository.get(channelId);
+        channelDto.setFlujo("");
         return msg;
     }  
     public void SendMessageToPOS(String msg){
