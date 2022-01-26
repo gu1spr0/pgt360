@@ -5,6 +5,8 @@
  */
 package com.pgt360.decoder;
 
+import com.pgt360.dto.VentaDto;
+import com.pgt360.utils.ProcessPos;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -16,15 +18,23 @@ import java.util.List;
  * @author Home
  */
 public class NettyDecoder extends ByteToMessageDecoder{
+    public ProcessPos processPos = new ProcessPos();
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf bb, List<Object> list) throws Exception {
         String message = "";
         System.out.println("Decodificando mensaje");
         if(bb.readableBytes()<1){
             return;
+        } else if(bb.readableBytes() == 1){
+            String s = bb.readCharSequence(bb.readableBytes(),Charset.forName("utf-8")).toString();
+            list.add(s);
+        } else{
+            ByteBuf buf = (ByteBuf)bb;
+            String text = buf.toString(Charset.defaultCharset());
+            VentaDto ventaDto = processPos.respuestaHosInicializacion(text);
+            System.out.println("CodigoRespuesta:"+ventaDto.getCodRespuesta());
         }
-        String s = bb.readCharSequence(bb.readableBytes(),Charset.forName("utf-8")).toString();
-        list.add(s);
+        
         /*int strLen = bb.readInt();
         String s = bb.readCharSequence(strLen, charset).toString();
         list.add(s);*/
