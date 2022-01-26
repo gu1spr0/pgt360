@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     public static  ChannelHandlerContext ctx;
-    public static ChannelRepository channelRepository;
+    public static final ChannelRepository channelRepository = new ChannelRepository();
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
