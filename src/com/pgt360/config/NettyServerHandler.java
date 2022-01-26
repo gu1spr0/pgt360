@@ -57,14 +57,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             result = result + c;
             
         }*/
-        //System.out.print(">>>>>>>"+msg);
+        System.out.print(">>>>>>>"+msg);
         ChannelDto channelDto;
         channelDto = channelRepository.get(ctx.channel().id());
-        //if(channelDto.getFlujo().equals("inicializar")){*/
+        if(channelDto.getFlujo().equals("inicializar")){
             CommunicationPos communicationPos = new CommunicationPos();
             communicationPos.sendSolicitudInicializar(channelDto);
-        //}
-        
+        }
+        System.out.println("Cantidad conectados.."+channelRepository.size());
         //ByteBuf buf =(ByteBuf)msg;    // (2)
         //String text = buf.toString(Charset.defaultCharset());   // (3)
         //System.out.println("El mensaje leido es:"+msg);
