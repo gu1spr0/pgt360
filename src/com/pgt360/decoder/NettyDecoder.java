@@ -16,16 +16,15 @@ import java.util.List;
  * @author Home
  */
 public class NettyDecoder extends ByteToMessageDecoder{
-    //private final Charset charset = Charset.forName("UTF-8");
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf bb, List<Object> list) throws Exception {
-        /*String message = "";
+        String message = "";
         System.out.println("Decodificando mensaje");
         if(bb.readableBytes()<1){
             return;
         }
         String s = bb.readCharSequence(bb.readableBytes(),Charset.forName("utf-8")).toString();
-        list.add(s);*/
+        list.add(s);
         /*int strLen = bb.readInt();
         String s = bb.readCharSequence(strLen, charset).toString();
         list.add(s);*/
@@ -41,9 +40,9 @@ public class NettyDecoder extends ByteToMessageDecoder{
         }
         list.add(result);*/
         //ByteBuf buf =(ByteBuf)msg;    // (2)
-        String text = bb.toString(Charset.defaultCharset());   // (3)
+        /*String text = bb.toString(Charset.defaultCharset());   // (3)
         System.out.println("El mensaje decodificado es:"+text);
-        list.add(text);
+        list.add(text);*/
     }
     
 }

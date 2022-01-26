@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Home/Documents/NetBeansProjects/pgt360/src/com/pgt360/utils/Util.java</file>
-            <file>file:/C:/Users/Home/Documents/NetBeansProjects/pgt360/src/com/pgt360/utils/CommunicationPos.java</file>
-            <file>file:/C:/Users/Home/Documents/NetBeansProjects/pgt360/src/com/pgt360/utils/ProcessPos.java</file>
+            <file>file:/C:/Users/Home/Documents/NetBeansProjects/pgt360/src/com/pgt360/config/NettyServerHandler.java</file>
+            <file>file:/C:/Users/Home/Documents/NetBeansProjects/pgt360/src/com/pgt360/decoder/NettyDecoder.java</file>
         </group>
     </open-files>
 </project-private>
