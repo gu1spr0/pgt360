@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
 public class NettyServerHandler extends ChannelInboundHandlerAdapter{
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     public static  ChannelHandlerContext ctx;
-    public static final ChannelRepository channelRepository = new ChannelRepository();
+    private static final ChannelRepository channelRepository = new ChannelRepository();
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws ExceptionPayment{
         Channel incoming = ctx.channel();
@@ -58,10 +58,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
             
         }*/
         System.out.print(">>>>>>>"+msg);
-        ChannelDto channelDto = channelRepository.get(ctx.channel().id());
+        ChannelDto channelDto;
+        channelDto = channelRepository.get(ctx.channel().id());
         if(channelDto.getFlujo().equals("inicializar")){
             CommunicationPos communicationPos = new CommunicationPos();
-            communicationPos.sendSolicitudInicializar(ctx.channel().id());
+            communicationPos.sendSolicitudInicializar(channelDto);
         }
         
         //ByteBuf buf =(ByteBuf)msg;    // (2)

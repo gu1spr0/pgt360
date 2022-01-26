@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
  * @author Home
  */
 public class CommunicationPos {
-    private static ChannelRepository channelRepository = new ChannelRepository();
+    private static ChannelRepository channelRepository;
     public String sendAck(){
         String msg = "06";
         return msg;
@@ -56,12 +56,12 @@ public class CommunicationPos {
         SendMessageToPOS(msg);
         return msg;
     }
-    public String sendSolicitudInicializar(ChannelId channelId){
+    public String sendSolicitudInicializar(ChannelDto channelDto){
         String msg = "02001736303030303030303030313030323030300321";
         System.out.println("Inicializando Pos: "+msg);
         SendMessageToPOS(msg);
-        ChannelDto channelDto = channelRepository.get(channelId);
         channelDto.setFlujo("");
+        System.out.println("Inicializacion completa");
         return msg;
     }  
     public void SendMessageToPOS(String msg){
