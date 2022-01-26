@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
  * @author Home
  */
 public class CommunicationPos {
-    private static ChannelRepository channelRepository;
+    private static ChannelRepository channelRepository = new ChannelRepository();
     public String sendAck(){
         String msg = "06";
         return msg;
