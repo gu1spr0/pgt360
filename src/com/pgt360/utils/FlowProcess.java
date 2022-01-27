@@ -55,6 +55,10 @@ public class FlowProcess {
                 break;
         }     
     }
+    
+    public void flujoChip(String strReply){
+        String resp = "";
+    }
     public boolean isAck(String str){
         if(str.equals(this.ack)){
             return true;

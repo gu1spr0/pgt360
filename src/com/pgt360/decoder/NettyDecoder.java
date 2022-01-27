@@ -5,6 +5,7 @@
  */
 package com.pgt360.decoder;
 
+import com.pgt360.dto.FlowQueryDto;
 import com.pgt360.dto.VentaDto;
 import com.pgt360.utils.ProcessPos;
 import io.netty.buffer.ByteBuf;
@@ -12,6 +13,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
+import org.apache.commons.lang3.SerializationUtils;
 
 /**
  *
@@ -31,10 +33,16 @@ public class NettyDecoder extends ByteToMessageDecoder{
             String text = bb.toString(Charset.defaultCharset());   // (3)
             System.out.println("El mensaje recibido del POS es:"+text);
         } else{
-            ByteBuf buf = (ByteBuf)bb;
+            /*ByteBuf buf = (ByteBuf)bb;
             String text = buf.toString(Charset.defaultCharset());
             VentaDto ventaDto = processPos.respuestaHosInicializacion(text);
-            System.out.println("CodigoRespuesta:"+ventaDto.getCodRespuesta());
+            System.out.println("CodigoRespuesta:"+ventaDto.getCodRespuesta());*/
+            byte[] bytes = new byte[1024];
+            for(int i = 0; i < bb.readableBytes();i++){
+                bytes[i] = bb.getByte(i);
+            }
+            FlowQueryDto vFlowQueryDto = SerializationUtils.deserialize(bytes);
+            System.out.println(vFlowQueryDto);
         }
         
         /*int strLen = bb.readInt();
