@@ -89,6 +89,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter{
         channelDto.setNumericFlujo(0);
         channelDto.setStep(1);
         channelRepository.put(ctx.channel().id(), channelDto);
+        CommunicationPos communicationPos = new CommunicationPos();
+        communicationPos.sendSolicitudInicializar(channelDto);
+        
+        
         //if(ctx.channel().isWritable()){
             //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello Israel", CharsetUtil.UTF_8));
             
