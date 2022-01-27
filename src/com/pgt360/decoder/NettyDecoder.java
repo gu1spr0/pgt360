@@ -26,8 +26,10 @@ public class NettyDecoder extends ByteToMessageDecoder{
         if(bb.readableBytes()<1){
             return;
         } else if(bb.readableBytes() == 1){
-            String s = bb.readCharSequence(bb.readableBytes(),Charset.forName("utf-8")).toString();
-            list.add(s);
+            //String s = bb.readCharSequence(bb.readableBytes(),Charset.forName("utf-8")).toString();
+            //list.add(s);
+            String text = bb.toString(Charset.defaultCharset());   // (3)
+            System.out.println("El mensaje recibido del POS es:"+text);
         } else{
             ByteBuf buf = (ByteBuf)bb;
             String text = buf.toString(Charset.defaultCharset());
