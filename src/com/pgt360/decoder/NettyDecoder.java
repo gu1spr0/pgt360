@@ -22,7 +22,7 @@ public class NettyDecoder extends ByteToMessageDecoder{
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf bb, List<Object> list) throws Exception {
         String message = "";
-        System.out.println("Decodificando mensaje");
+        System.out.println("Decodificando mensaje:"+bb.readableBytes());
         if(bb.readableBytes()<1){
             return;
         } else if(bb.readableBytes() == 1){
